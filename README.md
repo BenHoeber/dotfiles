@@ -46,3 +46,17 @@ After that:
 cd ~/dot-files
 stow --dotfiles -R --target="$HOME" git zsh nvim fuzzel kanshi mimeapps niri noctalia sway swaylock swaync swayr visidata waybar wezterm wlogout yazi zathura local-bin ssh
 ```
+
+Helper script:
+
+```sh
+cd ~/dot-files
+./stow-all.sh --adopt
+```
+
+For normal updates:
+
+```sh
+cd ~/dot-files
+./stow-all.sh
+```
