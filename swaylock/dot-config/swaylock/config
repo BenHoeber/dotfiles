@@ -1,0 +1,38 @@
+# Swaylock configuration
+
+# Visual settings
+clock
+screenshots
+effect-blur=10x6
+
+# Appearance
+color=22222288
+indicator-caps-lock
+indicator-radius=100
+indicator-thickness=7
+inside-color=00000066
+inside-clear-color=ffffff22
+# Transparenz aktivieren (optional)
+ring-color=ffffffcc    # Weiß mit weniger Transparenz
+separator-color=ffffff # Separator sichtbar machen
+inside-clear-color=00000080
+ring-clear-color=ffffff80
+inside-ver-color=0000ff22
+inside-wrong-color=ff000022
+key-hl-color=00ff00
+line-color=00000000
+ring-color=ffffff88
+ring-clear-color=ffffff
+ring-ver-color=0000ff
+ring-wrong-color=ff0000
+separator-color=00000000
+text-color=ffffff
+text-clear-color=ffffff
+text-ver-color=0000ff
+text-wrong-color=ff0000
+indicator-idle-visible
+
+# Behavior
+daemonize
+show-failed-attempts
+ignore-empty-password

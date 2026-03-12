@@ -1,0 +1,254 @@
+########## Key mode ##########
+bindkey -v  # use vim-style keys
+
+########## History ##########
+HISTFILE=${ZDOTDIR:-$HOME}/.zsh_history
+HISTSIZE=200000
+SAVEHIST=200000
+setopt inc_append_history       # append immediately
+setopt extended_history         # timestamps etc.
+setopt hist_reduce_blanks
+setopt hist_ignore_dups         # ignore duplicate of previous
+setopt hist_ignore_all_dups     # remove older duplicates
+setopt hist_verify              # expand history, then edit before running
+# setopt share_history            # share across terminals
+
+########## Sensible defaults ##########
+setopt autocd                   # 'foo' = cd foo
+setopt glob_dots                # include dotfiles in globs
+setopt interactive_comments
+setopt no_beep
+setopt nobeep                                                   # No beep
+setopt notify
+unsetopt flow_control           # keep ^S/^Q from freezing the TTY
+setopt no_nomatch               # wildcard that doesn't match won't error
+setopt numericglobsort          # Sort filenames numerically when it makes sense
+unsetopt auto_menu		# Disable zshs internal completion menu in favour of fzf
+
+WORDCHARS=${WORDCHARS//\/[&.;]} # Don't consider certain characters part of the word
+
+########## PATH ##########
+path=("$HOME/.local/bin" $path)
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+export PATH="$HOME/.cargo/bin:$PATH"
+
+########## Colors (for zstyles etc.) ##########
+autoload -Uz colors && colors
+
+########## Completion system (merged) ##########
+# Extra completion functions installed by packages
+fpath+=(/usr/share/zsh/site-functions)
+
+autoload -Uz compinit
+# Harden permissions if compaudit complains (one-time fix)
+# if ! compaudit &>/dev/null; then
+#   compaudit | xargs -r chmod g-w,o-w 2>/dev/null
+# fi
+# Use versioned compdump under XDG cache for speed
+ZSH_COMPDUMP="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump-$ZSH_VERSION"
+mkdir -p "${ZSH_COMPDUMP:h}"
+compinit -d "$ZSH_COMPDUMP"
+
+# Modules & base styles
+zmodload -i zsh/complist
+# Chain of completers: complete → ignore-mask → matching → corrections → approx → prefix
+zstyle ':completion:*' completer _complete _ignored _match _correct _approximate _prefix
+
+# Don’t insert common unambiguous prefix automatically (works better with fzf-tab)
+zstyle ':completion:*' insert-unambiguous false
+
+# Colors for completion lists (use LS_COLORS)
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+# Matching rules: smart case + tolerate separators, keep your original-both behavior
+zstyle ':completion:*' matcher-list \
+  'm:{a-zA-Z}={A-Za-z}' \
+  'r:|[._-]=* r:|=*'
+zstyle ':completion:*' match-original both
+
+# Limit number of typos accepted by approximate matching
+zstyle ':completion:*' max-errors 2
+
+# Fallback menu behavior (fzf-tab overrides UI when active)
+zstyle ':completion:*' menu select
+
+# Grouping & descriptions (bold + cyan)
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*:descriptions' format '[%d]'
+# Classic prompts (used if fzf-tab isn’t engaged)
+zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
+zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %l%s'
+zstyle ':completion:*' prompt '[%e errors] - Did you mean:'
+#
+# Speed up completions
+# zstyle ':completion:*' accept-exact '*(N)'
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
+
+########## Tool hooks ##########
+# direnv (per-project envs)
+# (( $+commands[direnv] )) && eval "$(direnv hook zsh)"
+# zoxide (smarter cd => `z`)
+(( $+commands[zoxide] )) && eval "$(zoxide init zsh)"
+
+########## Autosuggestions & syntax highlighting ##########
+# Grey “ghost text” from history that you can accept with →.
+# Package paths (Arch):
+if [[ -r /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+  # How suggestions are generated & colored
+  ZSH_AUTOSUGGEST_STRATEGY=(history)
+  # 8 = bright black (i.e., grey); tweak to taste
+  ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
+  source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+  # --- Choose ONE of the following behaviors for the Right Arrow key ---
+  # A) Default (no change): → inserts ONE character of the suggestion per press (safe).
+  # B) Accept the FULL suggestion with → (overrides normal cursor-right):
+  # bindkey "${terminfo[kcuf1]}" autosuggest-accept
+fi
+
+########## FZF ##########
+export FZF_DEFAULT_COMMAND='fd --hidden --follow --exclude .git'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+[[ -r /usr/share/fzf/key-bindings.zsh   ]] && source /usr/share/fzf/key-bindings.zsh
+[[ -r /usr/share/fzf/completion.zsh     ]] && source /usr/share/fzf/completion.zsh
+# ---------- FZF-TAB (interactive completion menus) ----------
+if [[ -r ~/.config/zsh/plugins/fzf-tab/fzf-tab.plugin.zsh ]]; then
+  source ~/.config/zsh/plugins/fzf-tab/fzf-tab.plugin.zsh
+fi
+# Preview files with bat or less
+# zstyle ':fzf-tab:complete:*:*' fzf-preview 'bat --style=numbers --color=always --line-range :500 -- $realpath 2>/dev/null || less $realpath'
+
+# Compact display with borders
+zstyle ':fzf-tab:*' fzf-flags '--height 60% --border --ansi'
+
+# Reverse order, top-down
+zstyle ':fzf-tab:*' fzf-flags '--layout=reverse'
+
+# completing INSIDE it (without leaving fzf), use `/`
+zstyle ':fzf-tab:*' accept-exact-dirs yes
+
+# Preview git branches and other custom completions nicely
+# ---------- FZF-TAB (interactive completion menus) ----------
+zstyle ':completion:*:descriptions' format-menu ''
+zstyle ':fzf-tab:complete:git-(checkout|switch):*' fzf-preview 'git log --oneline --color=always -n 20 -- $word'
+
+# Make TAB behave like normal (accepts selection) and SHIFT+TAB moves up
+bindkey '^I' fzf-tab-complete
+
+########## Prompt (Powerlevel10k) ##########
+# You’ll run `p10k configure` after first load; see steps below.
+if [[ -r /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme ]]; then
+  source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+  [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+fi
+
+if [[ -r /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+  # Must be sourced LAST
+  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+########## Aliases (fallback if tools missing) ##########
+if (( $+commands[eza] )); then
+  alias ls='eza --group-directories-first --icons=auto'
+else
+  alias ls='ls --color=auto'
+fi
+alias ll='ls -l'
+alias la='ls -la'
+
+# if (( $+commands[bat] )); then
+#   alias cat='bat --paging=never'
+# else
+#   alias cat='cat'
+# fi
+(( $+commands[rg] )) && alias grep='rg -n' || alias grep='grep -n --color=auto'
+alias ..='cd ..'
+alias ...='cd ../..'
+
+########## Editor & locale ##########
+export EDITOR="nvim"
+export VISUAL="nvim"
+export LANG="en_US.UTF-8"
+
+########## TTY nicety ##########
+stty -ixon
+
+# Yazi setup to jump to cwd
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		z -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
+# Run “nh” followed by any command to start it under nohup,
+# with all I/O discarded and returned to the prompt immediately.
+nh() {
+  # background, detach from tty, silence all output, *and* disown
+  nohup "$@" </dev/null >/dev/null 2>&1 &!
+}
+
+export SWAY_SCREENSHOT_DIR="$HOME/Pictures/Screenshots"
+
+# bind UP and DOWN arrow keys to history substring search
+zmodload zsh/terminfo
+# Arrow keys / vim keys → simple history navigation (just up/down through history)
+bindkey '^[[A' up-line-or-history
+bindkey '^[[B' down-line-or-history
+# bindkey -M vicmd 'k' up-line-or-history
+# bindkey -M vicmd 'j' down-line-or-history
+
+# Ctrl+P / Ctrl+N → prefix-based search (searches for commands starting with what you've typed)
+bindkey '^P' history-beginning-search-backward
+bindkey '^N' history-beginning-search-forward
+
+# Ctrl+R / Ctrl+S → incremental search (optional, but useful)
+# bindkey '^R' history-incremental-search-backward
+# bindkey '^S' history-incremental-search-forward
+
+# Ctrl+T → fuzzy Datei-Suche
+bindkey '^T' fzf-file-widget
+# Alt+C → fuzzy Ordnerwechsel
+bindkey '^[c' fzf-cd-widget
+# Ctrl+R → fuzzy History (ersetze ggf. durch atuin später)
+bindkey '^R' fzf-history-widget
+
+# disables cursor blinking
+# taken from: https://github.com/ghostty-org/ghostty/discussions/2812
+function __set_beam_cursor {
+    echo -ne '\e[6 q'
+}
+
+function __set_block_cursor {
+    echo -ne '\e[2 q'
+}
+
+function zle-keymap-select {
+  case $KEYMAP in
+    vicmd) __set_block_cursor;;
+    viins|main) __set_beam_cursor;;
+  esac
+}
+zle -N zle-keymap-select
+
+function zle-line-init {
+    __set_beam_cursor
+}
+zle -N zle-line-init
+
+precmd() {
+    __set_beam_cursor  # doesn't have to be in precmd - can put outside a function if you like
+}
+
+# Enos Datenbank Variablen
+export ENOS_DB_HOST=db01.sulzmann.energy
+export ENOS_DB_USER=enos
+export ENOS_DB_NAME=enos
+export ENOS_DB_PW=LgX75qRfWLrRPgdr
+export ENOS_RESULT_DIR=/tmp
+
+alias pythenos='podman run -it --rm --network=host --pull newer -v "$PWD:$PWD:z" -w $PWD -e "ENOS_*" registry.sulzmann.energy/work/enos/enos-backend/python:0.15.0'
+alias julienos='podman run -it --rm --network=host --pull newer -v "$PWD:$PWD:z" -w $PWD -e "ENOS_*" registry.sulzmann.energy/work/enos/enos-backend/julia:0.15.0'
