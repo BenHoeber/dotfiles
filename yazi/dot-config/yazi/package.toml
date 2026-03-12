@@ -1,0 +1,39 @@
+[[plugin.deps]]
+use = "yazi-rs/plugins:git"
+rev = "75f6f72"
+hash = "36a484acf6a0a0219c543ccb4cee218f"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:full-border"
+rev = "56971d0"
+hash = "3996fc74044bc44144b323686f887e1"
+
+[[plugin.deps]]
+use = "uhs-robert/recycle-bin"
+rev = "69d7d4c"
+hash = "38dac2fc8f4b50bbdaa46e699720a54a"
+
+[[plugin.deps]]
+use = "llanosrocas/githead"
+rev = "71dabe4"
+hash = "73d2758775276ae7d824b43e53d0b350"
+
+[[flavor.deps]]
+use = "tkapias/moonfly"
+rev = "395c686"
+hash = "11223984767b762067b2ae07815fb43b"
+
+[[flavor.deps]]
+use = "yazi-rs/flavors:catppuccin-frappe"
+rev = "4a1802a"
+hash = "6f261f00e5235001b8d6bcd7464d3077"
+
+[[flavor.deps]]
+use = "dangooddd/kanagawa"
+rev = "04985d1"
+hash = "c69a63981e254a3a06a11c2bf0e6af1d"
+
+[[flavor.deps]]
+use = "Chromium-3-Oxide/everforest-medium"
+rev = "0158f0f"
+hash = "a7c36abf0b13289aceb1c20a17c6a63e"

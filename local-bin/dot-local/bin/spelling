@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+declare -r image="${CONTAINER_SPELLING_IMAGE:-registry.sulzmann.energy/jhooli/spelling}"
+declare -r tag="${CONTAINER_SPELLING_TAG:-latest}"
+
+declare -a podman_args=(
+    "--rm" "-i"
+    --entrypoint "spelling"
+    --log-driver none
+    --network none
+    --volume "$PWD:$PWD:z" -w "$PWD"
+)
+[[ -t 1 ]] && podman_args+=("-t")
+
+declare -a exe_args=()
+if [[ $# -eq 0 ]]; then
+    # Default invocation
+    exe_args+=("-p" "dictionary.txt" "spell" ".")
+else
+    exe_args=("$@")
+fi
+
+podman run "${podman_args[@]}" "$image:$tag" "${exe_args[@]}"
