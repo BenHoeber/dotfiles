@@ -1,114 +1,16 @@
-output "Lenovo Group Limited 0x403D Unknown" {
-  alias $INTERNAL
-  mode 1920x1200@60.003
-  position 0,1200
-  scale 1
-}
-
-output "Dell Inc. DELL U2415 7MT01932073U" {
-  alias $IRINA_LEFT
-  mode 1920x1200@59.950
-  position 0,0
-  scale 1
-}
-
-output "Dell Inc. DELL U2415 7MT0186P1KEU" {
-  alias $IRINA_RIGHT
-  mode 1920x1200@59.950
-  position 1920,0
-  scale 1
-}
-
-output "Samsung Electric Company SyncMaster H1AK500000" {
-    alias $SAMSUNG_4K
-    mode 3840x2160@59.997
-    position 0,0
-    scale 2
-}
-
-output "Dell Inc. DELL U2415 XKV0P9AP1W3U" {
-    alias $BEN_LEFT
-    mode 1920x1200@59.950
-    position 0,0
-    scale 1
-}
-
-output "Dell Inc. DELL U2415 XKV0P9BE0W8U" {
+output "Acer Technologies ED273 T9DEE0053900" {
     alias $BEN_RIGHT
-    mode 1920x1200@59.950
     position 1920,0
     scale 1
 }
 
-output "Dell Inc. DELL U2415 7MT018BA0LAU" {
-    alias $NIKLAS_LEFT
-    mode 1920x1200@59.950
+output "Acer Technologies ED273 T9DEE0133900" {
+    alias $BEN_LEFT
     position 0,0
-    scale 1
-}
-
-output "Dell Inc. DELL U2415 7MT0191Q079L" {
-    alias $NIKLAS_RIGHT
-    mode 1920x1200@59.950
-    position 1920,0
-    scale 1
-}
-
-output "Dell Inc. DELL U2415 7MT018CS2TWU" {
-    alias $EMILY_LEFT
-    mode 1920x1200@59.950
-    position 0,0
-    scale 1
-}
-
-output "Dell Inc. DELL U2415 XKV0P9AP1UVU" {
-    alias $EMILY_RIGHT
-    mode 1920x1200@59.950
-    position 1920,0
     scale 1
 }
 
 profile ben {
-    output $INTERNAL enable position 0,1200
     output $BEN_LEFT enable
     output $BEN_RIGHT enable
-}
-
-profile irina {
-  output $INTERNAL enable
-  output $IRINA_LEFT enable
-  output $IRINA_RIGHT enable
-}
-
-profile undocked {
-  output $INTERNAL enable
-}
-
-profile flip {
-    output $INTERNAL    enable
-    output $SAMSUNG_4K  enable
-}
-
-profile niklas {
-  output $INTERNAL enable position 1920,1200
-  output $NIKLAS_LEFT enable
-  output $NIKLAS_RIGHT enable
-}
-
-profile emily {
-  output $INTERNAL enable position 1920,1200
-  output $EMILY_LEFT enable
-  output $EMILY_RIGHT enable
-}
-
-output "Acer Technologies ED273 T9DEE0053900" {
-    alias $HOME_RIGHT
-    mode 1920x1080@60.000
-    position 0,0
-    scale 1
-}
-
-profile home_right {
-  output $INTERNAL enable
-  output $HOME_RIGHT enable position 0,0
 }
