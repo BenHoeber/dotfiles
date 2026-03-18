@@ -76,7 +76,7 @@ json = [
 [open]
 rules = [
 	# CSV
-	{ url = "*.{csv,CSV}", use = [ "csv", "csv_de", "edit", "reveal" ] },
+	{ url = "*.{csv,CSV}", use = [ "edit", "csv", "csv_de", "reveal" ] },
 	{ url = "*.{json,JSON}", use = [ "edit", "json", "reveal" ] },
 	{ mime = "text/csv", use = [ "csv", "csv_de","edit", "reveal" ] },
 	# Parquet
