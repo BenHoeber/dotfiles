@@ -449,23 +449,23 @@
     "notifications": {
         "backgroundOpacity": 0.7000000000000001,
         "clearDismissed": true,
-        "criticalUrgencyDuration": 12,
+        "criticalUrgencyDuration": 10,
         "density": "default",
         "enableBatteryToast": true,
         "enableKeyboardLayoutToast": true,
-        "enableMarkdown": false,
+        "enableMarkdown": true,
         "enableMediaToast": false,
         "enabled": true,
         "location": "top_right",
         "lowUrgencyDuration": 3,
         "monitors": [
         ],
-        "normalUrgencyDuration": 6,
+        "normalUrgencyDuration": 5,
         "overlayLayer": true,
         "respectExpireTimeout": false,
         "saveToHistory": {
             "critical": true,
-            "low": true,
+            "low": false,
             "normal": true
         },
         "sounds": {
