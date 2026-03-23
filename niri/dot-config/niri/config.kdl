@@ -648,3 +648,16 @@ layer-rule {
     match namespace="^wallpaper$"
     place-within-backdrop true
 }
+
+// Block out password managers from screencasts.
+window-rule {
+    match app-id=r#"^org\.keepassxc\.KeePassXC$"#
+    match app-id=r#"^org\.gnome\.World\.Secrets$"#
+    block-out-from "screencast"
+}
+
+// Block out mako notifications from screencasts.
+layer-rule {
+    match namespace="^noctalia-notifications-"
+    block-out-from "screencast"
+}
