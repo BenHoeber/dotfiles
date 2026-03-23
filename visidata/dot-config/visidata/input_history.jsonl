@@ -1,0 +1,2 @@
+{"type": "regex", "input": "\"", "n": 1}
+{"type": "regex_flags", "input": "I", "n": 1}
