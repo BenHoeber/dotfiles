@@ -1,0 +1,227 @@
+#!/usr/bin/env python3
+import json
+import os
+import socket
+import subprocess
+import sys
+import threading
+from typing import Dict, Tuple
+
+# Current tiled positions: {window_id: (col, row)}
+window_positions: Dict[int, Tuple[int, int]] = {}
+
+# Managed restore state:
+# {window_id: {"position": (col, row), "mode": "fullscreen"|"maximize", "exit": bool}}
+managed_windows = {}
+
+
+def main():
+    t1 = threading.Thread(target=nfsm_stream, daemon=True)
+    t2 = threading.Thread(target=nfsm_socket, daemon=True)
+    t1.start()
+    t2.start()
+
+    try:
+        t1.join()
+        t2.join()
+    except KeyboardInterrupt:
+        sys.exit(0)
+
+
+def socket_path() -> str:
+    return os.getenv("NFSM_SOCKET", f"/run/user/{os.getuid()}/nfsm.sock")
+
+
+def run_action(action: str, window_id: int) -> None:
+    subprocess.run(
+        ["niri", "msg", "action", action, "--id", str(window_id)],
+        check=False,
+    )
+
+
+def get_focused_window_id() -> int | None:
+    props = subprocess.run(
+        ["niri", "msg", "--json", "focused-window"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    if props.returncode != 0 or not props.stdout.strip():
+        return None
+
+    try:
+        return json.loads(props.stdout)["id"]
+    except (KeyError, json.JSONDecodeError, TypeError):
+        return None
+
+
+def handle_toggle_request(mode: str) -> None:
+    action = {
+        "fullscreen": "fullscreen-window",
+        "maximize": "maximize-window-to-edges",
+    }[mode]
+
+    window_id = get_focused_window_id()
+    if window_id is None:
+        subprocess.run(["niri", "msg", "action", action], check=False)
+        return
+
+    current_state = managed_windows.get(window_id)
+
+    # Same mode again -> leave it and restore afterwards.
+    if current_state and current_state["mode"] == mode:
+        current_state["exit"] = True
+        run_action(action, window_id)
+        return
+
+    # If the window was tracked for another mode, drop that stale state first.
+    if current_state and current_state["mode"] != mode:
+        del managed_windows[window_id]
+
+    # Record current tiled position before entering the mode.
+    position = window_positions.get(window_id)
+    if position is not None:
+        col, row = position
+        managed_windows[window_id] = {
+            "position": (col, row),
+            "mode": mode,
+            "exit": False,
+        }
+
+    run_action(action, window_id)
+
+
+def nfsm_socket() -> None:
+    server_socket = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+    path = socket_path()
+
+    try:
+        os.unlink(path)
+    except OSError:
+        if os.path.exists(path):
+            raise
+
+    try:
+        server_socket.bind(path)
+    except socket.error as exc:
+        print(f"Failed to bind socket: {exc}")
+        sys.exit(1)
+
+    server_socket.listen(5)
+    print(f"Socket server listening on: {path}")
+
+    while True:
+        client_socket = server_socket.accept()[0]
+        try:
+            data = client_socket.recv(1024)
+            if not data:
+                continue
+
+            cmd = data.decode("utf-8").strip()
+            if cmd == "FullscreenRequest":
+                handle_toggle_request("fullscreen")
+            elif cmd == "MaximizeRequest":
+                handle_toggle_request("maximize")
+        except socket.error as exc:
+            print(f"Socket error: {exc}")
+        finally:
+            client_socket.close()
+
+
+def handle_window_closed(window_id: int) -> None:
+    window_positions.pop(window_id, None)
+    managed_windows.pop(window_id, None)
+
+
+def niri_cmd(command: str) -> None:
+    subprocess.run(["niri", "msg", "action", command], check=False)
+
+
+def restore_window_if_needed(window_id: int, col: int, row: int) -> bool:
+    state = managed_windows.get(window_id)
+    if not state or not state["exit"]:
+        return False
+
+    dest_col, dest_row = state["position"]
+
+    # Fullscreen/maximize expel the window out into the scrolling layout;
+    # restore it back left until it reaches the original column.
+    if dest_col < col:
+        niri_cmd("consume-or-expel-window-left")
+        return True
+
+    # Then restore the row inside that column.
+    if dest_row < row:
+        for _ in range(row - dest_row):
+            niri_cmd("move-window-up")
+        return True
+
+    # Fully restored.
+    del managed_windows[window_id]
+    return False
+
+
+def nfsm_stream() -> None:
+    proc = subprocess.Popen(
+        ["stdbuf", "-oL", "niri", "msg", "--json", "event-stream"],
+        stdout=subprocess.PIPE,
+        text=True,
+    )
+
+    assert proc.stdout is not None
+    for line in proc.stdout:
+        line = line.strip()
+        if not line:
+            continue
+
+        try:
+            event = json.loads(line)
+        except json.JSONDecodeError:
+            print("Failed to parse JSON")
+            continue
+
+        if "WindowsChanged" in event and not window_positions:
+            windows = event["WindowsChanged"]["windows"]
+            for window in windows:
+                window_id = window["id"]
+                layout = window.get("layout", {})
+                pos = layout.get("pos_in_scrolling_layout")
+                if pos is None:
+                    continue
+                window_positions[window_id] = tuple(pos)
+
+        if "WindowClosed" in event:
+            handle_window_closed(event["WindowClosed"]["id"])
+
+        if "WindowOpenedOrChanged" in event:
+            window = event["WindowOpenedOrChanged"]["window"]
+            window_id = window["id"]
+            layout = window.get("layout", {})
+            pos = layout.get("pos_in_scrolling_layout")
+            if pos is not None:
+                window_positions[window_id] = tuple(pos)
+
+        if "WindowLayoutsChanged" not in event:
+            continue
+
+        changes = event["WindowLayoutsChanged"]["changes"]
+        for change in changes:
+            window_id = change[0]
+            window_data = change[1]
+
+            try:
+                col, row = window_data["pos_in_scrolling_layout"]
+            except TypeError:
+                # Ignore windows that returned to floating.
+                continue
+
+            handled = restore_window_if_needed(window_id, col, row)
+            if handled:
+                continue
+
+            window_positions[window_id] = (col, row)
+            sys.stdout.flush()
+
+
+if __name__ == "__main__":
+    main()
