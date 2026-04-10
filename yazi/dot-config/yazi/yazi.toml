@@ -59,6 +59,9 @@ play = [
 zathura = [
     { run = "zathura \"$1\"", orphan = true , desc = "Zathura PDF viewer"},
 ]
+okular = [
+    { run = "okular \"$1\"", orphan = true , desc = "Okular PDF viewer"},
+]
 csv = [
     { run = "/home/bhoeber/.local/bin/visidata \"$@\"", block = true , desc = "VisiData Data viewer"},
 ]
@@ -96,7 +99,7 @@ rules = [
 	{ mime = "application/{json,ndjson}", use = [ "edit", "reveal" ] },
 	{ mime = "*/javascript", use = [ "edit", "reveal" ] },
 	# PDF
-	{ mime = "application/pdf", use = [ "zathura", "reveal" ] },
+	{ mime = "application/pdf", use = [ "zathura", "okular", "open", "reveal" ] },
 	# Empty file
 	{ mime = "inode/empty", use = [ "edit", "reveal" ] },
 	# Fallback

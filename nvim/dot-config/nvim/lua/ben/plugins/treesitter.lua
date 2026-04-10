@@ -115,7 +115,7 @@ return {
           .install(languages, {
             force = false,
             generate = false,
-            summary = true,
+            summary = false,
           })
           :wait(1 * MINUTE_AS_MILLISECONDS)
     else
