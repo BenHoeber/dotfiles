@@ -298,3 +298,6 @@ vim.api.nvim_create_autocmd('FileType', {
 -- Show folds
 -- vim.opt.foldcoumn = 'auto'
 -- vim.opt.foldmethod = 'indent'
+
+-- Needed for obsidian.nvim
+vim.opt.conceallevel = 1
