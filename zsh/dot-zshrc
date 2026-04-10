@@ -162,7 +162,7 @@ alias la='ls -la'
 # else
 #   alias cat='cat'
 # fi
-(( $+commands[rg] )) && alias grep='rg -n' || alias grep='grep -n --color=auto'
+alias grep='grep -n --color=auto'
 alias ..='cd ..'
 alias ...='cd ../..'
 
