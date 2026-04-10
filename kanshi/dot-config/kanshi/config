@@ -100,3 +100,15 @@ profile emily {
   output $EMILY_LEFT enable
   output $EMILY_RIGHT enable
 }
+
+output "Acer Technologies ED273 T9DEE0053900" {
+    alias $HOME_RIGHT
+    mode 1920x1080@60.000
+    position 0,0
+    scale 1
+}
+
+profile home_right {
+  output $INTERNAL enable
+  output $HOME_RIGHT enable position 0,0
+}
