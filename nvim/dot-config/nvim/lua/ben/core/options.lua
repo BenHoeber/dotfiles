@@ -300,4 +300,9 @@ vim.api.nvim_create_autocmd('FileType', {
 -- vim.opt.foldmethod = 'indent'
 
 -- Needed for obsidian.nvim
-vim.opt.conceallevel = 1
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown", "obsidian" },
+  callback = function()
+    vim.opt_local.conceallevel = 2
+  end,
+})
