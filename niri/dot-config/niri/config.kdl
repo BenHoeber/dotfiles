@@ -573,7 +573,7 @@ binds {
     // Cycling through the presets in reverse order is also possible.
     // Mod+R { switch-preset-column-width-back; }
     Mod+Shift+R { switch-preset-window-height; }
-    Mod+Ctrl+R { reset-window-height; }
+    Mod+Shift+F { reset-window-height; }
     Mod+F { maximize-column; }
     Mod+M { spawn "~/.local/bin/nfsm-cli" "maximize"; }
     Mod+Shift+M { spawn "~/.local/bin/nfsm-cli" "fullscreen"; }
