@@ -80,13 +80,13 @@
         "widgets": {
             "center": [
                 {
-                    "characterCount": 2,
+                    "characterCount": 4,
                     "colorizeIcons": false,
                     "emptyColor": "secondary",
                     "enableScrollWheel": true,
                     "focusedColor": "primary",
                     "followFocusedScreen": false,
-                    "fontWeight": "bold",
+                    "fontWeight": "medium",
                     "groupedBorderOpacity": 0.76,
                     "hideUnoccupied": true,
                     "iconScale": 0.7,
@@ -226,6 +226,10 @@
                     "textColor": "none"
                 },
                 {
+                    "iconColor": "none",
+                    "id": "Settings"
+                },
+                {
                     "colorizeDistroLogo": false,
                     "colorizeSystemIcon": "none",
                     "customIconPath": "",
@@ -348,7 +352,7 @@
         "dockType": "floating",
         "enabled": false,
         "floatingRatio": 0.8,
-        "groupApps": false,
+        "groupApps": true,
         "groupClickAction": "cycle",
         "groupContextMenuMode": "extended",
         "groupIndicatorStyle": "dots",
@@ -356,9 +360,9 @@
         "indicatorColor": "primary",
         "indicatorOpacity": 0.6,
         "indicatorThickness": 3,
-        "launcherIcon": "",
+        "launcherIcon": "rocket",
         "launcherIconColor": "none",
-        "launcherPosition": "end",
+        "launcherPosition": "start",
         "launcherUseDistroLogo": false,
         "monitors": [
         ],
@@ -452,7 +456,7 @@
     },
     "idle": {
         "customCommands": "[]",
-        "enabled": true,
+        "enabled": false,
         "fadeDuration": 10,
         "lockCommand": "",
         "lockTimeout": 660,
