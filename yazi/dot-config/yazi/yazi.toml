@@ -63,14 +63,14 @@ okular = [
     { run = "okular \"$1\"", orphan = true , desc = "Okular PDF viewer"},
 ]
 csv = [
-    { run = "/home/bhoeber/.local/bin/visidata \"$@\"", block = true , desc = "VisiData Data viewer"},
+    { run = "/home/det/.local/bin/visidata \"$@\"", block = true , desc = "VisiData Data viewer"},
 ]
 csv_de = [
     # { run = "LC_NUMERIC=de_DE.UTF-8 /home/bhoeber/.local/bin/visidata \"$@\" --csv_delimiter=';'", block = true , desc = "VisiData for German csvs"},
-    { run = "LC_NUMERIC=de_DE.UTF-8 /home/bhoeber/.local/bin/visidata \"$@\" --csv_delimiter=';'", block = true , desc = "VisiData for German csvs"},
+    { run = "LC_NUMERIC=de_DE.UTF-8 /home/det/.local/bin/visidata \"$@\" --csv_delimiter=';'", block = true , desc = "VisiData for German csvs"},
 ]
 parquet = [
-    { run = "/home/bhoeber/.local/bin/visidata \"$@\"", block = true , desc = "VisiData"},
+    { run = "/home/det/.local/bin/visidata \"$@\"", block = true , desc = "VisiData"},
 ]
 json = [
     { run = "fx \"$1\"", block = true , desc = "fx json Viewer"},
