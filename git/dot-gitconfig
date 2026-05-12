@@ -6,6 +6,7 @@
 [core]
 	editor = nvim
 	whitespace = trailing-space,space-before-tab
+	pager = delta
 [alias]
 	pfl = push --force-with-lease
 	ribase = rebase -i --autosquash
@@ -31,6 +32,12 @@
 	repo = /home/bhoeber/Git/Malzfabrik/analyse-anlagendaten
 	repo = /home/bhoeber/Git/Malzfabrik/Darren-Abwaerme-Konzept
 [merge]
-	conflictstyle = diff3
+    conflictStyle = zdiff3
 [init]
 	defaultBranch = main
+[delta]
+    navigate = true  # use n and N to move between diff sections
+    dark = true      # or light = true, or omit for auto-detection
+[interactive]
+	name = bhoeber
+	email = ben.hoeber@sulzmann.energy
