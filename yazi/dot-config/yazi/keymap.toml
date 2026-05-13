@@ -164,6 +164,7 @@ prepend_keymap =[
 	{ on = ["R","b"], run = "plugin recycle-bin",              desc = "Open Recycle Bin menu" },
 	{on   = "!", for  = "unix", run  = 'shell "$SHELL" --block', desc = "Open $SHELL here"},
 	{ on   = "P", run  = "plugin toggle-pane min-preview", desc = "Show or hide the preview pane" },
+	{ on  = "y", run = [ 'shell -- for path in %s; do echo "file://$path"; done | wl-copy -t text/uri-list', "yank" ] }
 ]
 
 [tasks]
