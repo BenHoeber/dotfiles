@@ -10,7 +10,7 @@
 [alias]
 	pfl = push --force-with-lease
 	ribase = rebase -i --autosquash
-    amend = commit --amend --no-edit
+	amend = commit --amend --no-edit
 	lgg = log --graph --oneline --all --abbrev-commit
 	logg = log --graph --all --abbrev-commit
 [rerere]
@@ -32,12 +32,13 @@
 	repo = /home/bhoeber/Git/Malzfabrik/analyse-anlagendaten
 	repo = /home/bhoeber/Git/Malzfabrik/Darren-Abwaerme-Konzept
 [merge]
-    conflictStyle = zdiff3
+	conflictStyle = zdiff3
 [init]
 	defaultBranch = main
 [delta]
-    navigate = true  # use n and N to move between diff sections
-    dark = true      # or light = true, or omit for auto-detection
+	navigate = true  # use n and N to move between diff sections
+	dark = true      # or light = true, or omit for auto-detection
+	syntax-theme = Visual Studio Dark+
 [interactive]
 	name = bhoeber
 	email = ben.hoeber@sulzmann.energy
