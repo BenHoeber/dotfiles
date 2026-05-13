@@ -78,6 +78,7 @@ json = [
 
 [open]
 rules = [
+	{ mime = "text/html", use = [ "edit", "open", "reveal" ] },
 	# CSV
 	{ url = "*.{csv,CSV}", use = [ "edit", "csv", "csv_de", "reveal" ] },
 	{ url = "*.{json,JSON}", use = [ "edit", "json", "reveal" ] },
@@ -88,7 +89,7 @@ rules = [
 	# Folder
 	{ url = "*/", use = [ "open", "edit", "reveal" ] },
 	# Text
-	{ mime = "text/*", use = [ "edit", "reveal" ] },
+	{ mime = "text/*", use = [ "edit", "reveal", "open" ] },
 	# Image
 	{ mime = "image/*", use = [ "open", "reveal" ] },
 	# Media
