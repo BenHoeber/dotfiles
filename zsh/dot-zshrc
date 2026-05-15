@@ -252,3 +252,5 @@ export ENOS_RESULT_DIR=/tmp
 
 alias pythenos='podman run -it --rm --network=host --pull newer -v "$PWD:$PWD:z" -w $PWD -e "ENOS_*" registry.sulzmann.energy/work/enos/enos-backend/python:0.15.0'
 alias julienos='podman run -it --rm --network=host --pull newer -v "$PWD:$PWD:z" -w $PWD -e "ENOS_*" registry.sulzmann.energy/work/enos/enos-backend/julia:0.15.0'
+
+alias lg='lazygit'
