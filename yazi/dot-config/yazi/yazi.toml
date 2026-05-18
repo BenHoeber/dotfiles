@@ -75,6 +75,9 @@ parquet = [
 json = [
     { run = "fx \"$1\"", block = true , desc = "fx json Viewer"},
 ]
+imv-dir = [
+    { run = 'imv-dir "$@"', orphan = true , desc = "Image Viewer"},
+]
 
 [open]
 rules = [
@@ -90,7 +93,7 @@ rules = [
 	# Text
 	{ mime = "text/*", use = [ "edit", "reveal" ] },
 	# Image
-	{ mime = "image/*", use = [ "open", "reveal" ] },
+ 	{ mime = "image/*", use = [ "imv-dir", "open", "reveal" ] },
 	# Media
 	{ mime = "{audio,video}/*", use = [ "play", "reveal" ] },
 	# Archive

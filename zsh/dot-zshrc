@@ -29,7 +29,7 @@ WORDCHARS=${WORDCHARS//\/[&.;]} # Don't consider certain characters part of the 
 
 ########## PATH ##########
 path=("$HOME/.local/bin" $path)
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+# eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 export PATH="$HOME/.cargo/bin:$PATH"
 
 ########## Colors (for zstyles etc.) ##########
@@ -94,12 +94,12 @@ zstyle ':completion:*' cache-path ~/.zsh/cache
 ########## Autosuggestions & syntax highlighting ##########
 # Grey “ghost text” from history that you can accept with →.
 # Package paths (Arch):
-if [[ -r /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
+if [[ -r /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh ]]; then
   # How suggestions are generated & colored
   ZSH_AUTOSUGGEST_STRATEGY=(history)
   # 8 = bright black (i.e., grey); tweak to taste
   ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
-  source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+  source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
   # --- Choose ONE of the following behaviors for the Right Arrow key ---
   # A) Default (no change): → inserts ONE character of the suggestion per press (safe).
@@ -110,8 +110,9 @@ fi
 ########## FZF ##########
 export FZF_DEFAULT_COMMAND='fd --hidden --follow --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-[[ -r /usr/share/fzf/key-bindings.zsh   ]] && source /usr/share/fzf/key-bindings.zsh
-[[ -r /usr/share/fzf/completion.zsh     ]] && source /usr/share/fzf/completion.zsh
+# [[ -r /usr/share/fzf/key-bindings.zsh   ]] && source /usr/share/fzf/key-bindings.zsh
+# [[ -r /usr/share/fzf/completion.zsh     ]] && source /usr/share/fzf/completion.zsh
+source <(fzf --zsh)
 # ---------- FZF-TAB (interactive completion menus) ----------
 if [[ -r ~/.config/zsh/plugins/fzf-tab/fzf-tab.plugin.zsh ]]; then
   source ~/.config/zsh/plugins/fzf-tab/fzf-tab.plugin.zsh
@@ -143,9 +144,8 @@ if [[ -r /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme ]]; then
   [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 fi
 
-if [[ -r /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
-  # Must be sourced LAST
-  source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [[ -r /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh ]]; then
+  source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
 ########## Aliases (fallback if tools missing) ##########

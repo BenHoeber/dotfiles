@@ -13,7 +13,7 @@ input {
             // For more information, see xkeyboard-config(7).
 
             // For example:
-            layout "us,de"
+            layout "de,us"
             variant ",nodeadkeys"
             options "grp:shifts_toggle,caps:swapescape,compose:rctrl"
 
@@ -283,9 +283,9 @@ layout {
 // spawn-at-startup "waybar"
 
 // To run a shell command (with variables, pipes, etc.), use spawn-sh-at-startup:
-spawn-sh-at-startup "qs -c noctalia-shell"
+// spawn-sh-at-startup "qs -c noctalia-shell"
 spawn-sh-at-startup "kanshi"
-spawn-sh-at-startup "swaybg -i ~/Pictures/wallpaper3.jpg"
+// spawn-sh-at-startup "swaybg -i ~/Pictures/wallpaper3.jpg"
 spawn-sh-at-startup "~/.local/bin/nfsm > /tmp/nfsm.log 2>&1"
 
 hotkey-overlay {
