@@ -46,8 +46,8 @@ input {
     mouse {
         // off
         // natural-scroll
-        // accel-speed 0.2
-        // accel-profile "flat"
+        accel-speed 0.3
+        accel-profile "flat"
         // scroll-method "no-scroll"
     }
 
@@ -318,7 +318,28 @@ animations {
     // Slow down all animations by this factor. Values below 1 speed them up instead.
     // slowdown 3.0
 }
+overview {
+    zoom 0.38
+}
 
+recent-windows{
+    open-delay-ms 50
+    previews {
+        // max-height 1080
+        max-scale 0.25
+    }
+    binds {
+        Mod+Tab         { next-window; }
+        Mod+Shift+Tab   { previous-window; }
+        // Mod+grave       { next-window     filter="app-id"; }
+        // Mod+Shift+grave { previous-window filter="app-id"; }
+
+        Alt+Tab         { next-window filter="app-id"; }
+        Alt+Shift+Tab   { previous-window filter="app-id"; }
+        Alt+grave       { next-window     filter="app-id"; }
+        Alt+Shift+grave { previous-window filter="app-id"; }
+    }
+}
 // Window rules let you adjust behavior for individual windows.
 // Find more information on the wiki:
 // https://yalter.github.io/niri/Configuration:-Window-Rules
@@ -670,3 +691,5 @@ layer-rule {
     match namespace="^noctalia-notifications-"
     block-out-from "screencast"
 }
+
+workspace "stash" { }
