@@ -30,6 +30,36 @@ config.keys = {
 		mods = "CTRL|SHIFT",
 		action = act.Search({ CaseInSensitiveString = "" }),
 	},
+	{
+		key = "s",
+		mods = "LEADER|CTRL",
+		action = wezterm.action.SplitVertical { domain = "CurrentPaneDomain" },
+	},
+	{
+		key = "v",
+		mods = "LEADER|CTRL",
+		action = wezterm.action.SplitHorizontal { domain = "CurrentPaneDomain" },
+	},
+	{
+		key = "h",
+		mods = "LEADER|CTRL",
+		action = wezterm.action.ActivatePaneDirection "Left",
+	},
+	{
+		key = "j",
+		mods = "LEADER|CTRL",
+		action = wezterm.action.ActivatePaneDirection "Down",
+	},
+	{
+		key = "k",
+		mods = "LEADER|CTRL",
+		action = wezterm.action.ActivatePaneDirection "Up",
+	},
+	{
+		key = "l",
+		mods = "LEADER|CTRL",
+		action = wezterm.action.ActivatePaneDirection "Right",
+	},
 }
 config.mouse_bindings = {
 	{
@@ -66,4 +96,10 @@ config.key_tables = {
 		{ key = "DownArrow", mods = "NONE", action = act.CopyMode("NextMatch") },
 	},
 }
+config.leader = {
+	key = "Enter",
+	mods = "CTRL",
+	timeout_milliseconds = 1000,
+}
+
 return config
