@@ -10,8 +10,17 @@ local function configure_server(name, config)
   vim.lsp.enable(name)
 end
 
-configure_server('pylsp', {
-  cmd = {
+local function python_venv_dir(root_dir)
+  for _, name in ipairs { '.venv', 'venv' } do
+    local path = root_dir .. '/' .. name
+    if vim.fn.isdirectory(path) == 1 then
+      return path
+    end
+  end
+end
+
+local function podman_pylsp_cmd(root_dir)
+  return {
     'podman',
     'run',
     '--rm',
@@ -20,15 +29,35 @@ configure_server('pylsp', {
     'pylsp',
     '--network=host',
     '-v',
-    vim.loop.cwd() .. ':' .. vim.loop.cwd() .. ':z',
+    root_dir .. ':' .. root_dir .. ':z',
     '-w',
-    vim.loop.cwd(),
+    root_dir,
     '-e',
     'ENOS_*',
     'registry.sulzmann.energy/work/enos/enos-backend/python:0.15.0',
-  },
+  }
+end
+
+local function pylsp_cmd(dispatchers, config)
+  local root_dir = config.root_dir or vim.loop.cwd()
+  local venv_dir = python_venv_dir(root_dir)
+  local cmd
+
+  if venv_dir and vim.fn.executable 'uv' == 1 then
+    cmd = { 'uv', 'run', '--directory', root_dir, '--with', 'python-lsp-server', 'pylsp' }
+  elseif venv_dir and vim.fn.executable(venv_dir .. '/bin/pylsp') == 1 then
+    cmd = { venv_dir .. '/bin/pylsp' }
+  else
+    cmd = podman_pylsp_cmd(root_dir)
+  end
+
+  return vim.lsp.rpc.start(cmd, dispatchers, { cwd = root_dir })
+end
+
+configure_server('pylsp', {
+  cmd = pylsp_cmd,
   filetypes = { 'python' },
-  root_markers = { '.git', 'pyproject.toml', 'requirements.txt', 'setup.cfg', 'setup.py' },
+  root_markers = { 'uv.lock', 'pyproject.toml', { '.venv', 'venv' }, 'requirements.txt', 'setup.cfg', 'setup.py', '.git' },
   settings = {
     pylsp = {
       plugins = {
