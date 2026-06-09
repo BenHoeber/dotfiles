@@ -669,7 +669,7 @@ binds {
     // Powers off the monitors. To turn them back on, do any input like
     // moving the mouse or pressing any other key.
     // Mod+Shift+P { power-off-monitors; }
-    Mod+Ctrl+V { spawn-sh "qs -c noctalia-shell ipc call launcher clipboard"; }
+    Mod+Ctrl+V hotkey-overlay-title="Run Clipboard Manager" { spawn-sh "qs -c noctalia-shell ipc call launcher clipboard"; }
 }
 
 layer-rule {
