@@ -60,6 +60,11 @@ config.keys = {
 		mods = "LEADER|CTRL",
 		action = wezterm.action.ActivatePaneDirection "Right",
 	},
+	{
+		key = "f",
+		mods = "LEADER|CTRL",
+		action = wezterm.action.TogglePaneZoomState,
+	},
 }
 config.mouse_bindings = {
 	{
