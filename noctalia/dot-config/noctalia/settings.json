@@ -214,6 +214,9 @@
                     "textColor": "none"
                 },
                 {
+                    "id": "plugin:usb-drive-manager"
+                },
+                {
                     "displayMode": "onhover",
                     "iconColor": "none",
                     "id": "Bluetooth",
