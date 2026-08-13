@@ -24,7 +24,7 @@
         "showCategories": false,
         "showIconBackground": false,
         "sortByMostUsed": true,
-        "terminalCommand": "wezterm",
+        "terminalCommand": "wezterm start --",
         "viewMode": "list"
     },
     "audio": {
