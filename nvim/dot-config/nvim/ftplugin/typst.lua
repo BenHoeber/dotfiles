@@ -25,7 +25,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost", "BufWinEnter" }, {
         local filename = cb_obj.file or vim.api.nvim_buf_get_name(bufnr)
 
         --- @param exit vim.SystemCompleted
-        local on_exit = function(exit)
+        local on_exit = vim.schedule_wrap(function(exit)
             -- exit 1 means we found spelling mistakes
             if exit.code > 1 or exit.signal ~= 0 then
                 local reason = nil
@@ -91,7 +91,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost", "BufWinEnter" }, {
                             vim.notify_once(
                                 "diagnostic mismatch: started with line " ..
                                 tostring(current_line) .. " and continued with line " ..
-                                tostring(new_line - 1),
+                                tostring(tonumber(new_line) - 1),
                                 vim.log.levels.ERROR,
                                 {}
                             )
@@ -123,7 +123,7 @@ vim.api.nvim_create_autocmd({ "BufWritePost", "BufWinEnter" }, {
             vim.schedule(function()
                 vim.diagnostic.set(nsid, bufnr, all_diagnostics)
             end)
-        end
+        end)
 
         --- @type vim.SystemObj
         vim.system(
