@@ -59,3 +59,4 @@ application/x-extension-xhtml=firefox.desktop
 application/x-extension-xht=firefox.desktop
 image/webp=imv-dir.desktop
 image/gif=imv-dir.desktop
+application/octet-stream=org.keepassxc.KeePassXC.desktop
