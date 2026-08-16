@@ -1,0 +1,363 @@
+config_version = 12
+
+[accessibility]
+ui_scale = 1.1500000096857548
+
+[audio]
+enable_overdrive = true
+
+[bar]
+order = [ "default" ]
+
+    [bar.default]
+    background_opacity = 0.3899999912828207
+    capsule = true
+    capsule_opacity = 0.34999999217689037
+    capsule_thickness = 0.82999998517334461
+    center = [ "taskbar", "eyecare-widget", "status_2" ]
+    contact_shadow = true
+    end = [
+        "notifications",
+        "tray",
+        "keyboard_layout",
+        "network",
+        "bluetooth",
+        "status",
+        "widget",
+        "brightness",
+        "battery",
+        "control-center",
+        "session"
+    ]
+    margin_edge = 3
+    margin_ends = 5
+    padding = 4
+    radius = 19
+    scale = 1.2500000111758709
+    start = [ "launcher", "clock", "date", "ram", "sysmon", "media" ]
+    thickness = 38
+    widget_spacing = 8
+
+        [bar.default.dead_zone.actions]
+        middle = "settings-toggle"
+        scroll_down = "exec niri msg action focus-column-right"
+        scroll_up = "exec niri msg action focus-column-left"
+
+[brightness]
+enable_ddcutil = true
+minimum_brightness = 0.1099999975413084
+sync_all_monitors = true
+
+[control_center]
+width = 800
+
+    [control_center.calendar]
+    show_events_card = false
+    show_week_numbers = true
+
+[desktop_widgets]
+schema_version = 2
+widget_order = []
+
+    [desktop_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [desktop_widgets.widget]
+
+[dock]
+auto_hide = true
+background_opacity = 0.39999999105930328
+enabled = true
+reserve_space = false
+show_dots = true
+
+[idle]
+pre_action_fade_seconds = 5
+
+[location]
+address = "Germany, Heidelberg"
+
+[lockscreen_widgets]
+enabled = true
+schema_version = 2
+widget_order = [
+    "lockscreen-login-box@eDP-1",
+    "lockscreen-login-box@DP-8",
+    "lockscreen-login-box@DP-9",
+    "lockscreen-widget-0000000000000002"
+]
+
+    [lockscreen_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@DP-8"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 960.0
+    cy = 1018.0
+    output = "DP-8"
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@DP-8".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@DP-9"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 960.0
+    cy = 1018.0
+    output = "DP-9"
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@DP-9".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 960.0
+    cy = 986.0
+    output = "eDP-1"
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+    [lockscreen_widgets.widget.lockscreen-widget-0000000000000002]
+    box_height = 48.0
+    box_width = 144.0
+    cx = 464.0
+    cy = 1048.0
+    output = "eDP-1"
+    rotation = 0.0
+    type = "button"
+
+        [lockscreen_widgets.widget.lockscreen-widget-0000000000000002.settings]
+        background = true
+        command = "systemclt suspend"
+        glyph = "suspend"
+        label = "Suspend"
+        variant = "default"
+
+[nightlight]
+enabled = true
+
+[notification]
+history_retention_hours = 18
+layer = "overlay"
+offset_x = 8
+offset_y = 10
+
+[osd]
+offset_y = 20
+
+[plugin_settings."apex077/eyecare"]
+active_duration_minutes = 30
+
+[plugin_settings."blackbartblues/audio-switcher"]
+audio-switcher_open_near_click = false
+audio-switcher_position = "center"
+
+[plugin_settings."davemhammer/obsidian"]
+manager_placement = "attached"
+refresh_interval = 120
+vault_path = "~/Documents/My Vault"
+
+[plugins]
+enabled = [ "aristides/udiskie", "blackbartblues/audio-switcher", "apex077/eyecare", "davemhammer/obsidian" ]
+
+[shell]
+clipboard_history_max_entries = 3000
+
+    [shell.launcher.providers.session]
+    prefix = ""
+
+    [shell.launcher.providers.windows]
+    global = false
+
+    [shell.panel]
+    floating_offset = 100
+    list_item_background = true
+    session_placement = "floating"
+    session_position = "center"
+
+    [shell.screenshot]
+    directory = "/home/bhoeber/Pictures/Screenshots/gantt"
+
+    [[shell.session.actions]]
+    action = "lock"
+    countdown_seconds = 0.0
+    enabled = true
+    shortcut = "l"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "logout"
+    countdown_seconds = 10.0
+    enabled = true
+    shortcut = "o"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "lock_and_suspend"
+    countdown_seconds = 10.0
+    enabled = true
+    shortcut = "s"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "reboot"
+    countdown_seconds = 10.0
+    enabled = true
+    shortcut = "r"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "shutdown"
+    countdown_seconds = 10.0
+    enabled = true
+    shortcut = "d"
+    variant = "destructive"
+
+[system.monitor]
+disk_poll_seconds = 30
+ram_pct_activity_threshold = 40
+ram_pct_critical_threshold = 85
+
+[theme]
+source = "wallpaper"
+
+[wallpaper]
+directory = "/home/bhoeber/Pictures/Wallpapers"
+
+    [wallpaper.default]
+    path = "/home/bhoeber/Pictures/Wallpapers/wallpaper3.jpg"
+
+    [wallpaper.last]
+    path = "/home/bhoeber/Pictures/Wallpapers/wallpaper3.jpg"
+
+[weather]
+refresh_minutes = 240
+
+[widget.date]
+scale = 0.80000000000000004
+
+[widget.eyecare-widget]
+type = "apex077/eyecare:eyecare-widget"
+
+[widget.keyboard_layout]
+show_glyph = false
+
+    [widget.keyboard_layout.actions]
+    right = "keyboard-backlight-toggle"
+
+[widget.launcher]
+glyph = "rocket"
+
+[widget.media]
+capsule_padding = 5
+hide_when_no_media = true
+scale = 0.80000000000000004
+title_scroll = "on_hover"
+
+[widget.network]
+show_label = false
+
+[widget.notifications]
+hide_when_no_unread = true
+
+[widget.ram]
+scale = 0.80000000000000004
+stat = "ram_pct"
+visualization = "none"
+
+[widget.session]
+color = "error"
+
+[widget.status]
+hide_when_empty = true
+type = "aristides/udiskie:status"
+
+[widget.status_2]
+type = "davemhammer/obsidian:status"
+
+[widget.sysmon]
+capsule = true
+capsule_radius = "auto"
+scale = 0.80000000000000004
+visualization = "none"
+
+[widget.taskbar]
+capsule = true
+capsule_fill = "surface"
+capsule_padding = 3
+group_by_workspace = true
+hide_empty_workspaces = true
+inactive_opacity = 0.69999999999999996
+scale = 1.1000000000000001
+show_active_indicator = false
+show_workspace_label = false
+
+[widget.tray]
+hidden = [ "Network", "Blueman" ]
+
+[widget.volume]
+mute_color = "on_surface_variant"
+
+[widget.widget]
+type = "blackbartblues/audio-switcher:widget"
+
+    [widget.widget.actions]
+    middle = "volume-mute"
+
+[widget.workspaces]
+enabled = false
+focused_output_only = true
+labels_only_when_occupied = true
+scale = 1.25
