@@ -1,24 +1,23 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SOCKET="${NFSM_SOCKET:-/run/user/$(id -u)/nfsm.sock}"
-MODE="${1:-fullscreen}"
+SOCKET=''${NFSM_SOCKET:-/run/user/1000/nfsm.sock}
+CMD=''${1:-fullscreen}
 
-case "$MODE" in
+case "$CMD" in
   fullscreen)
-    MSG="FullscreenRequest"
-    FALLBACK="fullscreen-window"
+    NIRI_ACTION="fullscreen-window"
+    SOCKET_CMD="FullscreenRequest"
     ;;
   maximize)
-    MSG="MaximizeRequest"
-    FALLBACK="maximize-window-to-edges"
+    NIRI_ACTION="maximize-window-to-edges"
+    SOCKET_CMD="MaximizeRequest"
     ;;
   *)
-    notify-send --app-name="NFSM" "Niri FullScreen Manager" "Unknown mode: $MODE"
-    exit 2
+    echo "Unknown command: $CMD" >&2
+    exit 1
     ;;
 esac
 
-trap 'notify-send --app-name="NFSM" "Niri FullScreen Manager" "Failed to connect to NFSM socket: $SOCKET"; niri msg action "$FALLBACK"' ERR
-
-printf "%s\n" "$MSG" | socat - UNIX-CONNECT:"$SOCKET"
+trap 'notify-send --icon="${./assets/icon.png}" --app-name="NFSM" "Niri FullScreen Manager" "Failed to connect to NFSM_SOCKET: $SOCKET" && niri msg action "$NIRI_ACTION"' ERR
+echo "$SOCKET_CMD" | socat - UNIX-CONNECT:"$SOCKET"
