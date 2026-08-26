@@ -4,3 +4,24 @@ light = "kanagawa"
 
 [app]
 overall = { bg = "#1e1e2e" }
+
+[git]
+unknown   = { fg = "gray" }
+ignored   = { fg = "gray" }
+untracked = { fg = "yellow" }
+unstaged  = { fg = "blue" }
+staged    = { fg = "green" }
+added     = { fg = "green" }
+deleted   = { fg = "red", bold = true }
+updated   = { fg = "cyan" }
+clean     = { fg = "green" }
+
+unknown_sign   = ""
+ignored_sign   = "I"
+untracked_sign = "?"
+unstaged_sign  = "M"
+staged_sign    = "S"
+added_sign     = "A"
+deleted_sign   = "D"
+updated_sign   = "U"
+clean_sign     = " "
